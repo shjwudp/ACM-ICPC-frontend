@@ -1,0 +1,46 @@
+<app-page-header [heading]="'Contest Standing'" [icon]="'fa-list-ol'"></app-page-header>
+<div class="row">
+    <div class="col col-xl-12 col-lg-12">
+        <div *ngIf="contestStanding" class="card mb-3">
+            <div class="card-header">
+                {{ contestStanding?.StandingsHeader.CurrentDate }}
+            </div>
+            <div class="card-block table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Who</th>
+                            <th>=</th>
+                            <th>Penalty</th>
+                            <th *ngFor="let p of contestStanding.StandingsHeader.Problems">
+                                {{p.ID}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let t of contestStanding.TeamStandings">
+                            <th scope="row">{{t.Rank}}</th>
+                            <td>{{t.TeamName}}</td>
+                            <td>{{t.Solved}}</td>
+                            <td>{{t.Points}}</td>
+                            <td *ngFor="let p of t.ProblemSummaryInfos">
+                                <ng-container *ngIf="p.IsSolved">
+                                    <span class="badge badge-success">
+                                        +<ng-container *ngIf="p.Attempts != 0">{{p.Attempts}}</ng-container>
+                                    </span>
+                                </ng-container>
+                                <ng-container *ngIf="p.IsPending">
+                                    <span class="badge badge-warning">--</span>
+                                </ng-container>
+                                <ng-container *ngIf="!p.IsSolved && !p.IsPending && p.Attempts != 0">
+                                    <span class="badge badge-danger">-{{p.Attempts}}</span>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

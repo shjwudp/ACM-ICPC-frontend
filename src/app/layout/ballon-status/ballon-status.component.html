@@ -1,0 +1,33 @@
+<app-page-header [heading]="'Ballon Status List'" [icon]="'fa-list-ol'"></app-page-header>
+<div class="row">
+    <!--<ngb-alert *ngIf="ballonStatusList" [dismissible]="false" [type]="info">Working..</ngb-alert>-->
+    <div class="col col-xl-8 col-lg-8">
+        <div *ngIf="unmarkedList" class="card mb-3">
+            <div class="card-header">Unmarked Ballon List</div>
+            <div class="card-block">
+                <!--<p>
+                    <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapseExample">Toggle</button>
+                </p>
+                <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                    <div class="card">
+                        <div class="card-block">
+                            You can collapse this card by clicking Toggle
+                        </div>
+                    </div>
+                </div>-->
+                <p *ngFor="let bs of unmarkedList">
+                    <ngb-alert type="success" (close)="mark(bs)">{{ bs | json}}</ngb-alert>
+                </p>
+            </div>
+        </div>
+        <div *ngIf="markedList" class="card mb-3">
+            <div class="card-header">Marked Ballon List</div>
+            <div class="card-block">
+                <p *ngFor="let bs of markedList">
+                    <ngb-alert [dismissible]="false" type="info" (close)="mark(bs)">{{ bs | json}}</ngb-alert>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

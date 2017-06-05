@@ -1,0 +1,17 @@
+<app-page-header [heading]="'Print Code'" [icon]="'fa-print'"></app-page-header>
+
+<div class="row">
+    <div class="col-lg-6">
+        <fieldset [attr.disabled]="isBusy ? '' : null">
+            <div class="form-group">
+                <ngb-alert [dismissible]="false" [type]="alert.type">{{alert.message}}</ngb-alert>
+                <!--<div [class]="hintClass">
+                    {{hint}}
+                </div>-->
+                <textarea #codeClipboard class="form-control" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-secondary" (click)="onSendPrintContent(codeClipboard.value)">Submit Button</button>
+        </fieldset>
+    </div>
+</div>
+<!-- /.row -->
