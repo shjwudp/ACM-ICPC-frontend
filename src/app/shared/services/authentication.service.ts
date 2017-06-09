@@ -77,6 +77,7 @@ export class AuthenticationService extends Http {
 
     intercept(observable: Observable<Response>): Observable<Response> {
         return observable.catch((error: Response) => {
+            console.log('shjwudp', error);
             if (error.status === 401 || error.status === 403) {
                 console.log('The authentication session expires or the user is not authorised. Force refresh of the current page.');
                 this.router.navigate(['login']);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 
 import { Subscription } from "rxjs";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
@@ -6,6 +6,12 @@ import { Observable } from "rxjs/Observable";
 
 import { ContestStandingService } from '../../shared/services';
 import { ContestStandingInterface } from '../../models';
+import { FormControl } from '@angular/forms';
+
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'app-contest-standing',
@@ -16,7 +22,24 @@ export class ContestStandingComponent implements OnInit {
     contestStanding: ContestStandingInterface;
     error: Error = new Error();
     private subscription: Subscription;
+    stateCtrl: FormControl;
+    filteredStates: any;
+    searchText: string = '';
 
+    search = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200)
+            .distinctUntilChanged()
+            .map(term => {
+                if (term.length < 2) {
+                    return [];
+                } else {
+                    return this.contestStanding.TeamStandings
+                        .filter(t => t.TeamName.toLowerCase().indexOf(term.toLowerCase()) > -1)
+                        .slice(0, 10)
+                        .map(t => t.TeamName);
+                }
+            });
     constructor(
         private contestStandingService: ContestStandingService,
     ) { }

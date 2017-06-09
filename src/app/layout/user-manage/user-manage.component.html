@@ -1,55 +1,75 @@
-<app-page-header [heading]="'User Manage'" [icon]="'fa-list-ol'"></app-page-header>
+<!--<app-page-header [heading]="'User Manage'" [icon]="'fa-list-ol'"></app-page-header>-->
 <div class="row">
     <div class="col col-xl-12 col-lg-12">
-        <fieldset [attr.disabled]="isUploading ? '' : null">
-            <div class="card mb-3">
-                <div class="card-header">Upload User List</div>
-                <div class="card-block">
-                    <ngb-alert [dismissible]="false" [type]="uploadAlert.type">{{uploadAlert.message}}</ngb-alert>
-                    <div class="form-group row">
-                        <input type="file" (change)="fileChange($event)" placeholder="Upload user.csv" class="form-control-file">
+        <ngb-tabset>
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                    User Manage
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-xl-6 text-xs-center">
+                                <label class="btn btn-default btn-file">
+                                    <span>Upload user.list here</span>
+                                    <input type="file" (change)="fileChange($event)" class="form-control-file" hidden>
+                                </label>
+                            </div>
+                            <div class="col-xl-6 text-xs-center">
+                                <div class="form-group pull-right">
+                                    <input [disabled]="isUploading" type="text" class="form-control" placeholder="What you looking for?" [(ngModel)]="searchText"
+                                        [ngbTypeahead]="search" />
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>Role</th>
+                                    <th>NickName</th>
+                                    <th>School</th>
+                                    <th>IsStar</th>
+                                    <th>IsGirl</th>
+                                    <th>SeatID</th>
+                                    <th>Coach</th>
+                                    <th>Player1</th>
+                                    <th>Player2</th>
+                                    <th>Player3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let u of users | UserManageFilterPipe:searchText">
+                                    <th scope="row">{{u.Account}}</th>
+                                    <td contenteditable='false'>{{u.Role}}</td>
+                                    <td contenteditable='false'>{{u.NickName}}</td>
+                                    <td contenteditable='false'>{{u.School}}</td>
+                                    <td contenteditable='false'>{{u.IsStar}}</td>
+                                    <td contenteditable='false'>{{u.IsGirl}}</td>
+                                    <td contenteditable='false'>{{u.SeatID}}</td>
+                                    <td contenteditable='false'>{{u.Coach}}</td>
+                                    <td contenteditable='false'>{{u.Player1}}</td>
+                                    <td contenteditable='false'>{{u.Player2}}</td>
+                                    <td contenteditable='false'>{{u.Player3}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-        </fieldset>
-        <div *ngIf="users" class="card mb-3">
-            <div class="card-header">User List</div>
-            <div class="card-block table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Account</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                            <th>NickName</th>
-                            <th>School</th>
-                            <th>IsStar</th>
-                            <th>IsGirl</th>
-                            <th>SeatId</th>
-                            <th>Coach</th>
-                            <th>Player1</th>
-                            <th>Player2</th>
-                            <th>Player3</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let u of users">
-                            <th scope="row">{{u.Account}}</th>
-                            <td contenteditable='false' (input)="onRowClick($event)">{{u.Password}}</td>
-                            <td contenteditable='false'>{{u.Role}}</td>
-                            <td contenteditable='false'>{{u.NickName}}</td>
-                            <td contenteditable='false'>{{u.School}}</td>
-                            <td contenteditable='false'>{{u.IsStar}}</td>
-                            <td contenteditable='false'>{{u.IsGirl}}</td>
-                            <td contenteditable='false'>{{u.SeatId}}</td>
-                            <td contenteditable='false'>{{u.Coach}}</td>
-                            <td contenteditable='false'>{{u.Player1}}</td>
-                            <td contenteditable='false'>{{u.Player2}}</td>
-                            <td contenteditable='false'>{{u.Player3}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>Upload User List</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="card-block">
+                        <fieldset [attr.disabled]="isUploading ? '' : null">
+                            <ngb-alert [dismissible]="false" [type]="uploadAlert.type">{{uploadAlert.message}}</ngb-alert>
+                            <div class="form-group row">
+                                <input type="file" (change)="fileChange($event)" placeholder="Upload user.csv" class="form-control-file">
+                            </div>
+                        </fieldset>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
     </div>
 </div>

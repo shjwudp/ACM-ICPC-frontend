@@ -27,7 +27,7 @@ export class BallonStatusComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let timer = Observable.timer(0, 15000);
+        let timer = Observable.timer(0, 2000);
         this.subscription = timer.subscribe(() => this.ballonStatusService.getAllBallonStatus()
             .subscribe({
                 next: (result: BallonStatusInterface[]) => {

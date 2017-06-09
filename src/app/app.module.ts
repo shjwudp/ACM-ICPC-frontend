@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -31,7 +32,7 @@ export function HttpLoaderFactory(http: Http) {
                 useFactory: HttpLoaderFactory,
                 deps: [Http]
             }
-        })
+        }),
     ],
     providers: [
         AuthGuard,
