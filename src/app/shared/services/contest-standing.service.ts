@@ -21,7 +21,7 @@ export class ContestStandingService {
         let options = new RequestOptions({ headers: headers });
 
         // get ranklist from api
-        return this.http.get(Global.api_domain + '/api/authorized/contest-standing', options)
+        return this.http.get(Global.apiDomain + '/api/authorized/contest-standing', options)
             .map((response: Response) => response.json() as ContestStandingInterface);
     }
 }

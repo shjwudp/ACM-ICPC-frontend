@@ -9,14 +9,8 @@
         <a [routerLink]="['/print-code']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-print"></i>&nbsp;{{ 'print-code' | translate }}
         </a>
-        <!--<a [routerLink]="['/user-manage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-key"></i>&nbsp;{{ 'user-manage' | translate }}
-        </a>
-        <a [routerLink]="['/ballon-status']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-flag"></i>&nbsp;{{ 'ballon-status' | translate }}
-        </a>-->
-        <a *ngIf="user && user.Role == 'admin'" [routerLink]="['/user-manage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-key"></i>&nbsp;{{ 'user-manage' | translate }}
+        <a *ngIf="user && user.Role == 'admin'" [routerLink]="['/manage']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-key"></i>&nbsp;{{ 'manage' | translate }}
         </a>
         <a *ngIf="user && (user.Role == 'admin' || user.Role == 'volunteer')" [routerLink]="['/ballon-status']" [routerLinkActive]="['router-link-active']"
             class="list-group-item">

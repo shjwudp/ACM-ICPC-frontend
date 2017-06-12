@@ -5,8 +5,8 @@ import { Subscription } from "rxjs";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 import { Observable } from "rxjs/Observable";
 
-import { UserManageService } from '../../shared/services';
-import { UserInterface } from '../../models';
+import { UserManageService, ContestInfoService } from '../../shared/services';
+import { UserInterface, ContestInfoInterface } from '../../models';
 
 @Component({
     selector: 'ngbd-modal-content',
@@ -31,42 +31,58 @@ export class NgbdModalContent {
     constructor(public activeModal: NgbActiveModal) { }
 }
 
-
 @Component({
-    selector: 'app-user-manage',
-    templateUrl: './user-manage.component.html',
-    providers: [UserManageService],
-    styleUrls: ['./user-manage.component.scss']
+    selector: 'app-manage',
+    templateUrl: './manage.component.html',
+    providers: [
+        UserManageService,
+        ContestInfoService,
+    ],
+    styleUrls: ['./manage.component.scss']
 })
-export class UserManageComponent implements OnInit, OnDestroy {
+export class ManageComponent implements OnInit, OnDestroy {
     users: UserInterface[] = [];
-    uploadAlert = { 'type': 'info', 'message': 'Upload user.csv here.' };
     isUploading: boolean = false;
-    error: Error = new Error();
-    affected: number;
     private subscription: Subscription;
     searchText: string = '';
     closeResult: string;
+    contestInfo: ContestInfoInterface;
+
+    isEdit: boolean = false;
+    testName: string = '';
 
     constructor(
-        private userManageService: UserManageService,
+        private userUserManageService: UserManageService,
+        private contestInfoService: ContestInfoService,
         private modalService: NgbModal,
     ) { }
 
     ngOnInit() {
-        let timer = TimerObservable.create(0, 5000);
-        this.subscription = timer.subscribe(() => this.userManageService.getAllUser()
-            .subscribe({
-                next: (result: UserInterface[]) => {
-                    console.log('getAllUser observer got a next value: ', result);
-                    this.users = result;
-                },
-                error: err => {
-                    console.error('getAllUser observer got an error: ', err);
-                    this.error = err;
-                },
-                complete: () => console.log('getAllUser observer got a complete notification')
-            })
+        let timer = TimerObservable.create(0, 1500);
+        this.subscription = timer.subscribe(() => {
+            this.userUserManageService.getAllUser()
+                .subscribe({
+                    next: (result: UserInterface[]) => {
+                        console.log('getAllUser observer got a next value: ', result);
+                        this.users = result.sort((u1, u2) => u1.Account < u2.Account ? -1 : 1);
+                    },
+                    error: err => {
+                        console.error('getAllUser observer got an error: ', err);
+                    },
+                    complete: () => console.log('getAllUser observer got a complete notification')
+                });
+            // this.contestInfoService.getContestInfo()
+            //     .subscribe({
+            //         next: (result: ContestInfoInterface) => {
+            //             console.log('getContestInfo observer got a next value: ', result);
+            //             this.contestInfo = result;
+            //         },
+            //         error: err => {
+            //             console.error('getContestInfo observer got an error: ', err);
+            //         },
+            //         complete: () => console.log('getContestInfo observer got a complete notification')
+            //     });
+        }
         );
     }
 
@@ -113,32 +129,22 @@ export class UserManageComponent implements OnInit, OnDestroy {
             console.log(this.isUploading);
             this.isUploading = true;
 
-            this.userManageService.postUserList(file)
+            this.userUserManageService.postUserList(file)
                 .subscribe({
                     next: (result: number) => {
                         console.log('postUserList observer got a next value: ', result);
-                        this.affected = result;
                         this.isUploading = false;
                         this.open('Upload Success');
-                        this.uploadAlert = {
-                            'type': 'success',
-                            'message': 'Update Success! ' + this.affected + ' affected.'
-                        };
                     },
                     error: err => {
                         console.error('postUserList observer got an error: ', err);
                         this.isUploading = false;
                         this.open('Error', err);
-                        this.uploadAlert = {
-                            'type': 'danger',
-                            'message': err.statusText
-                        };
                     },
                     complete: () => {
                         console.log('postUserList observer got a complete notification');
                     }
                 });
-
         }
     }
 

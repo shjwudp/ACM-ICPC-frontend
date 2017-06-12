@@ -20,7 +20,7 @@ export class AuthenticationService extends Http {
     }
 
     login(account: string, password: string): Observable<boolean> {
-        return this.post(Global.api_domain + '/api/authenticate', JSON.stringify({ account: account, password: password }))
+        return this.post(Global.apiDomain + '/api/authenticate', JSON.stringify({ account: account, password: password }))
             .map((response: Response) => {
                 console.log('login response:', response);
                 // login successful if there's a jwt token in the response
@@ -168,7 +168,7 @@ export class AuthenticationService extends Http {
 //     }
 
 //     login(account: string, password: string): Observable<boolean> {
-//         return this.http.post(Global.api_domain + '/api/authenticate', JSON.stringify({ account: account, password: password }))
+//         return this.http.post(Global.apiDomain + '/api/authenticate', JSON.stringify({ account: account, password: password }))
 //             .map((response: Response) => {
 //                 console.log('login response:', response);
 //                 // login successful if there's a jwt token in the response

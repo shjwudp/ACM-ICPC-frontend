@@ -9,7 +9,6 @@ import * as Global from '../../globals';
 
 @Injectable()
 export class BallonStatusService {
-    ballonStatusList: BallonStatusInterface[];
 
     constructor(
         private http: Http,
@@ -22,7 +21,7 @@ export class BallonStatusService {
         let options = new RequestOptions({ headers: headers });
 
         // get ranklist from api
-        let apiUrl = Global.api_domain + '/api/authorized/ballon-status';
+        let apiUrl = Global.apiDomain + '/api/authorized/ballon-status';
         return this.http.request(apiUrl, options)
             .map((response: Response) => response.json() as BallonStatusInterface[]);
     }
@@ -36,7 +35,7 @@ export class BallonStatusService {
         let options = new RequestOptions({ headers: headers });
 
         // post user.csv to api
-        let apiUrl = Global.api_domain + '/api/authorized/ballon-status';
+        let apiUrl = Global.apiDomain + '/api/authorized/ballon-status';
         let postJSON = {
             "TeamKey": teamKey,
             "ProblemIndex": problemIndex,

@@ -3,9 +3,7 @@
     <div class="col col-xl-12 col-lg-12">
         <ngb-tabset>
             <ngb-tab>
-                <ng-template ngbTabTitle>
-                    User Manage
-                </ng-template>
+                <ng-template ngbTabTitle>{{ 'user-manage' | translate }}</ng-template>
                 <ng-template ngbTabContent>
                     <div class="card-block">
                         <div class="row">
@@ -57,19 +55,32 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab>
-                <ng-template ngbTabTitle>Upload User List</ng-template>
+            <!--<ngb-tab>
+                <ng-template ngbTabTitle>{{ 'contest-manage' | translate }}</ng-template>
                 <ng-template ngbTabContent>
                     <div class="card-block">
-                        <fieldset [attr.disabled]="isUploading ? '' : null">
-                            <ngb-alert [dismissible]="false" [type]="uploadAlert.type">{{uploadAlert.message}}</ngb-alert>
-                            <div class="form-group row">
-                                <input type="file" (change)="fileChange($event)" placeholder="Upload user.csv" class="form-control-file">
+                        <input type="text" #ctrl="ngModel" [(ngModel)]="testName">
+                        <div class="form-group row">
+                            <label for="example-search-input" class="col-2 col-form-label">GoldMedalNum</label>
+                            <div class="col-3">
+                                <input class="form-control" type="number" value="How do I shoot web" id="example-search-input">
                             </div>
-                        </fieldset>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-email-input" class="col-2 col-form-label">SilberMedalNum</label>
+                            <div class="col-3">
+                                <input class="form-control" type="number" value="bootstrap@example.com" id="example-email-input">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-url-input" class="col-2 col-form-label">BronzeMedalNum</label>
+                            <div class="col-3">
+                                <input class="form-control" type="number" value="https://getbootstrap.com" id="example-url-input">
+                            </div>
+                        </div>
                     </div>
                 </ng-template>
-            </ngb-tab>
+            </ngb-tab>-->
         </ngb-tabset>
     </div>
 </div>

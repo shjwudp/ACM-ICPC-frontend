@@ -1,1 +1,1 @@
-export const api_domain: string = 'http://localhost:8080';
+export const apiDomain: string = 'http://localhost:8080';

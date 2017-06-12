@@ -1,11 +1,11 @@
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
-
-import { UserManageComponent, NgbdModalContent } from './user-manage.component';
-import { UserManageRoutingModule } from './user-manage-routing.module';
+import { ManageComponent, NgbdModalContent } from './manage.component';
+import { ManageRoutingModule } from './manage-routing.module';
 import { PageHeaderModule } from './../../shared';
 import { UserInterface } from '../../models';
 
@@ -33,16 +33,18 @@ export class UserManageFilterPipe implements PipeTransform {
 @NgModule({
     imports: [
         CommonModule,
-        UserManageRoutingModule,
+        ManageRoutingModule,
         PageHeaderModule,
         NgbModule.forRoot(),
         FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
     ],
     declarations: [
-        UserManageComponent,
+        ManageComponent,
         UserManageFilterPipe,
         NgbdModalContent,
     ],
     entryComponents: [NgbdModalContent]
 })
-export class UserManageModule { }
+export class ManageModule { }
