@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../services';
 import { ContestStandingInterface } from '../../models';
-import * as Global from '../../globals';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ContestStandingService {
@@ -21,7 +21,7 @@ export class ContestStandingService {
         let options = new RequestOptions({ headers: headers });
 
         // get ranklist from api
-        return this.http.get(Global.apiDomain + '/api/authorized/contest-standing', options)
+        return this.http.get(environment.apiDomain + '/api/authorized/contest-standing', options)
             .map((response: Response) => response.json() as ContestStandingInterface);
     }
 }

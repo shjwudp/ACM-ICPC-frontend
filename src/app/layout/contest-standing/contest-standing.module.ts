@@ -13,9 +13,20 @@ import { PageHeaderModule } from './../../shared';
     pure: false
 })
 export class NameFilterPipe implements PipeTransform {
-    transform(items: Array<any>, query: string): Array<any> {
-        return items.filter(item => {
-            return query == "" || item.TeamName.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    transform(teamList: Array<any>, query: string): Array<any> {
+        return teamList.filter(team => {
+            let ok: boolean = (query == "");
+            ["TeamName", "School", "NickName"].forEach(attr => {
+                if (attr in team && typeof team[attr] === 'string') {
+                    ok = ok || team[attr].toLowerCase().indexOf(query.toLowerCase()) > -1;
+                }
+            });
+            ["Coach", "Player1", "Player2", "Player3"].forEach(attr => {
+                if (attr in team && typeof team[attr] === 'string') {
+                    ok = ok || team[attr] === query;
+                }
+            });
+            return ok;
         })
     }
 }

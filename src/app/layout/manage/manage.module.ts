@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ManageComponent, NgbdModalContent } from './manage.component';
 import { ManageRoutingModule } from './manage-routing.module';
-import { PageHeaderModule } from './../../shared';
+import { PageHeaderModule } from '../../shared';
 import { UserInterface } from '../../models';
 
 @Pipe({
@@ -22,7 +22,9 @@ export class UserManageFilterPipe implements PipeTransform {
                 if (forbid.indexOf(attr) > -1) {
                     continue;
                 }
-                // console.log(attr, user[attr])
+                if (typeof user[attr] != 'string') {
+                    continue;
+                }
                 ok = ok || user[attr].toLowerCase().indexOf(query.toLowerCase()) > -1;
             }
             return ok;

@@ -31,7 +31,13 @@
                     <tbody>
                         <tr *ngFor="let t of contestStanding.TeamStandings | namefilter:searchText">
                             <th scope="row">{{t.Rank}}</th>
-                            <td>{{t.TeamName}}</td>
+                            <td>
+                                <!--<div ngbPopover="{{popoverText(t)}}" triggers="mouseenter:mouseleave">-->
+                                <span [style]="spanStyle(t.Rank)">
+                                        {{t.TeamName}} | {{t.School }}
+                                    </span>
+                                <!--</div>-->
+                            </td>
                             <td>{{t.Solved}}</td>
                             <td>{{t.Points}}</td>
                             <td *ngFor="let p of t.ProblemSummaryInfos">

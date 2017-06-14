@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../services';
-import * as Global from '../../globals';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class PrinterService {
@@ -20,7 +20,7 @@ export class PrinterService {
         let options = new RequestOptions({ headers: headers });
 
         // post PrintContent from api
-        let apiUrl = Global.apiDomain + '/api/authorized/printer';
+        let apiUrl = environment.apiDomain + '/api/authorized/printer';
         let postJson = { "PrintContent": printContent };
         return this.http.post(apiUrl, postJson, options)
             .map((response: Response) => response.json());

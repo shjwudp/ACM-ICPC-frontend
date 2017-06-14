@@ -12,6 +12,7 @@
                                     <span>Upload user.list here</span>
                                     <input type="file" (change)="fileChange($event)" class="form-control-file" hidden>
                                 </label>
+                                <span class="nowrap">{{uploadMsg}}</span>
                             </div>
                             <div class="col-xl-6 text-xs-center">
                                 <div class="form-group pull-right">
@@ -55,32 +56,31 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <!--<ngb-tab>
+            <ngb-tab>
                 <ng-template ngbTabTitle>{{ 'contest-manage' | translate }}</ng-template>
                 <ng-template ngbTabContent>
                     <div class="card-block">
-                        <input type="text" #ctrl="ngModel" [(ngModel)]="testName">
                         <div class="form-group row">
-                            <label for="example-search-input" class="col-2 col-form-label">GoldMedalNum</label>
-                            <div class="col-3">
-                                <input class="form-control" type="number" value="How do I shoot web" id="example-search-input">
+                            <label for="GoldMedalNum-input" class="col-3 col-form-label">{{"gold-medal-num" | translate}} :</label>
+                            <div class="col-2">
+                                <input [(ngModel)]="contestInfo.GoldMedalNum" (change)="contestInfoChange($event)" class="form-control" type="number" id="GoldMedalNum-input">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="example-email-input" class="col-2 col-form-label">SilberMedalNum</label>
-                            <div class="col-3">
-                                <input class="form-control" type="number" value="bootstrap@example.com" id="example-email-input">
+                            <label for="SilverMedalNum-input" class="col-3 col-form-label">{{"silver-medal-num" | translate}} :</label>
+                            <div class="col-2">
+                                <input [(ngModel)]="contestInfo.SilverMedalNum" (change)="contestInfoChange($event)" class="form-control" type="number" id="SilverMedalNum-input">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="example-url-input" class="col-2 col-form-label">BronzeMedalNum</label>
-                            <div class="col-3">
-                                <input class="form-control" type="number" value="https://getbootstrap.com" id="example-url-input">
+                            <label for="BronzeMedalNum-input" class="col-3 col-form-label">{{"bronze-medal-num" | translate}} :</label>
+                            <div class="col-2">
+                                <input [(ngModel)]="contestInfo.BronzeMedalNum" (change)="contestInfoChange($event)" class="form-control" type="number" id="BronzeMedalNum-input">
                             </div>
                         </div>
                     </div>
                 </ng-template>
-            </ngb-tab>-->
+            </ngb-tab>
         </ngb-tabset>
     </div>
 </div>

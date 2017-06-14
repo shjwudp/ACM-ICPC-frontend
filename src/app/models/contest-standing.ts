@@ -15,7 +15,7 @@ export interface ContestStandingInterface {
             BestSolutionTime: number,
             LastSolutionTime: number,
             Title: string,
-            ShortName: string
+            ShortName: string,
         }[],
     },
     TeamStandings: {
@@ -29,6 +29,15 @@ export interface ContestStandingInterface {
         TeamName: string,
         TeamKey: string,
         TotalAttempts: number,
+        NickName: string,
+        School: string,
+        IsStar: boolean,
+        IsGirl: boolean,
+        Coach: string,
+        Player1: string,
+        Player2: string,
+        Player3: string,
+        SeatID: string,
         ProblemSummaryInfos: {
             Index: number,
             Attempts: number,

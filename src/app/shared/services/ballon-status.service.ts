@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from '../services';
 import { BallonStatusInterface } from '../../models';
-import * as Global from '../../globals';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BallonStatusService {
@@ -21,9 +21,14 @@ export class BallonStatusService {
         let options = new RequestOptions({ headers: headers });
 
         // get ranklist from api
-        let apiUrl = Global.apiDomain + '/api/authorized/ballon-status';
+        let apiUrl = environment.apiDomain + '/api/authorized/ballon-status';
         return this.http.request(apiUrl, options)
-            .map((response: Response) => response.json() as BallonStatusInterface[]);
+            .map((response: Response) => {
+                if (response == null || !response.json()) {
+                    return [];
+                }
+                return response.json() as BallonStatusInterface[];
+            });
     }
 
     patchBallonStatus(
@@ -35,7 +40,7 @@ export class BallonStatusService {
         let options = new RequestOptions({ headers: headers });
 
         // post user.csv to api
-        let apiUrl = Global.apiDomain + '/api/authorized/ballon-status';
+        let apiUrl = environment.apiDomain + '/api/authorized/ballon-status';
         let postJSON = {
             "TeamKey": teamKey,
             "ProblemIndex": problemIndex,

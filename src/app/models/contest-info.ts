@@ -1,7 +1,7 @@
 export interface ContestInfoInterface {
     StartTime: string,
     GoldMedalNum: number,
-    SilberMedalNum: number,
+    SilverMedalNum: number,
     BronzeMedalNum: number,
     Duration: number,
 };

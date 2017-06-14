@@ -20,7 +20,7 @@
             <ng-template ngbTabContent>
                 <div class="card-block">
                     <p *ngFor="let bs of markedList">
-                        <ngb-alert [dismissible]="false" type="info" (close)="mark(bs)">{{ bs | json}}</ngb-alert>
+                        <ngb-alert [dismissible]="false" type="info" (close)="mark(bs)">{{ bs.TeamName }} 队通过了题目 {{ bs.ProblemIndex }}，座位号 {{bs.SeatID}}</ngb-alert>
                     </p>
                 </div>
             </ng-template>
