@@ -4,10 +4,10 @@
         <div *ngIf="contestStanding" class="card mb-3">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-xl-6">
                         {{ contestStanding?.StandingsHeader.CurrentDate }}
                     </div>
-                    <div class="col-xl-9">
+                    <div class="col-xl-6">
                         <div class="form-group pull-right">
                             <input type="text" class="form-control" placeholder="What you looking for?" [(ngModel)]="searchText" [ngbTypeahead]="search"
                             />
