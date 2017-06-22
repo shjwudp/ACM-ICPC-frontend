@@ -1,5 +1,12 @@
+import {
+    Component,
+    OnInit,
+    OnDestroy,
+    Input,
+    ViewChild,
+    ElementRef
+} from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { NgbModule, ModalDismissReasons, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Subscription } from "rxjs";
@@ -9,28 +16,6 @@ import { Observable } from "rxjs/Observable";
 import { UserManageService, ContestInfoService } from '../../shared/services';
 import { UserInterface, ContestInfoInterface } from '../../models';
 
-@Component({
-    selector: 'ngbd-modal-content',
-    template: `
-    <div class="modal-header">
-      <h4 class="modal-title">Response</h4>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>{{type}}! {{message}}</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
-    </div>
-  `
-})
-export class NgbdModalContent {
-    @Input() name;
-
-    constructor(public activeModal: NgbActiveModal) { }
-}
 
 @Component({
     selector: 'app-manage',
@@ -43,8 +28,10 @@ export class NgbdModalContent {
 })
 export class ManageComponent implements OnInit, OnDestroy {
     users: UserInterface[] = [];
-    isUploading: boolean = false;
-    uploadMsg: string = '';
+    private uploadState = {
+        IsUploading: false,
+        Hint: ""
+    };
     private subscription: Subscription;
     searchText: string = '';
     contestInfo: ContestInfoInterface = {
@@ -54,9 +41,11 @@ export class ManageComponent implements OnInit, OnDestroy {
         BronzeMedalNum: 0,
         Duration: 0,
     };
-
-    isEdit: boolean = false;
-    testName: string = '';
+    private modalParam = {
+        Title: "Modal Title",
+        Message: "Modal Message",
+    };
+    @ViewChild('modalTemplate') modalTemplate: ElementRef;
 
     constructor(
         private userUserManageService: UserManageService,
@@ -99,12 +88,6 @@ export class ManageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
-    }
-
-    open(type: string, message?: any) {
-        const modalRef = this.modalService.open(NgbdModalContent);
-        modalRef.componentInstance.type = type;
-        modalRef.componentInstance.message = message;
     }
 
     search = (text$: Observable<string>) =>
@@ -151,28 +134,40 @@ export class ManageComponent implements OnInit, OnDestroy {
             });
     }
 
+    showModal(Title: string, Message: string) {
+        this.modalParam = {
+            Title: Title,
+            Message: Message
+        };
+        this.modalService.open(this.modalTemplate);
+    }
+
     fileChange(event) {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
             let file: File = fileList[0];
-            console.log(this.isUploading);
-            this.isUploading = true;
-            this.uploadMsg = 'uploading...';
-            // this.uploadPopover.hidden;
+            this.uploadState = {
+                IsUploading: true,
+                Hint: "uploading..."
+            };
 
             this.userUserManageService.postUserList(file)
                 .subscribe({
                     next: (result: number) => {
                         console.log('postUserList observer got a next value: ', result);
-                        this.isUploading = false;
                         this.updateUsers();
-                        this.uploadMsg = 'Upload Success';
+                        this.uploadState = {
+                            IsUploading: false,
+                            Hint: "Upload Success"
+                        };
                     },
                     error: err => {
                         console.error('postUserList observer got an error: ', err);
-                        this.isUploading = false;
-                        this.uploadMsg = 'Upload Failed';
-                        this.open('Errror', err);
+                        this.uploadState = {
+                            IsUploading: false,
+                            Hint: "Upload Failed"
+                        };
+                        this.showModal("Error", err.toString())
                     },
                     complete: () => {
                         console.log('postUserList observer got a complete notification');

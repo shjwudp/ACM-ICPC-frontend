@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ManageComponent, NgbdModalContent } from './manage.component';
+import { ManageComponent } from './manage.component';
 import { ManageRoutingModule } from './manage-routing.module';
 import { PageHeaderModule } from '../../shared';
 import { UserInterface } from '../../models';
@@ -45,8 +45,6 @@ export class UserManageFilterPipe implements PipeTransform {
     declarations: [
         ManageComponent,
         UserManageFilterPipe,
-        NgbdModalContent,
-    ],
-    entryComponents: [NgbdModalContent]
+    ]
 })
 export class ManageModule { }

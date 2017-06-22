@@ -1,6 +1,14 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Pipe,
+    PipeTransform,
+    ViewChild,
+    ElementRef,
+    Renderer
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl, SafeStyle } from '@angular/platform-browser';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from "rxjs";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
 import { Observable } from "rxjs/Observable";
@@ -20,16 +28,20 @@ import 'rxjs/add/operator/distinctUntilChanged';
     providers: [
         ContestStandingService,
         ContestInfoService,
-    ]
+    ],
+    styleUrls: ['./contest-standing.component.scss']
 })
 export class ContestStandingComponent implements OnInit {
     contestStanding: ContestStandingInterface;
     contestInfo: ContestInfoInterface;
     private subscription: Subscription;
-    stateCtrl: FormControl;
-    filteredStates: any;
     searchText: string = '';
-
+    private modalParam = {
+        Title: "Modal Title",
+        Message: "Modal Message",
+    };
+    @ViewChild('modalTemplate') modalTemplate: ElementRef;
+    @ViewChild('rankBoard') rankBoard: ElementRef;
 
     search = (text$: Observable<string>) =>
         text$
@@ -49,7 +61,6 @@ export class ContestStandingComponent implements OnInit {
                             }
                         });
                     });
-                    console.log("dict", dict);
                     dict = dict.filter((item, pos) => dict.indexOf(item) == pos);
                     return dict
                         .filter(word => word.toLowerCase().indexOf(term.toLowerCase()) > -1)
@@ -61,10 +72,12 @@ export class ContestStandingComponent implements OnInit {
         private sanitizer: DomSanitizer,
         private contestStandingService: ContestStandingService,
         private contestInfoService: ContestInfoService,
+        private renderer: Renderer,
+        private modalService: NgbModal,
     ) { }
 
     ngOnInit() {
-        let timer = TimerObservable.create(0, 1200);
+        let timer = TimerObservable.create(0, 8000);
         this.subscription = timer.subscribe(() => {
             this.contestStandingService.getContestStanding()
                 .subscribe({
@@ -99,6 +112,29 @@ export class ContestStandingComponent implements OnInit {
                     complete: () => console.log('getContestInfo observer got a complete notification')
                 });
         });
+    }
+
+    showModal(Title: string, Message: string) {
+        this.modalParam = {
+            Title: Title,
+            Message: Message
+        };
+        this.modalService.open(this.modalTemplate);
+    }
+
+    boardFullScreen() {
+        var i = this.rankBoard.nativeElement;
+        if (i.requestFullscreen) {
+            i.requestFullscreen();
+        } else if (i.webkitRequestFullscreen) {
+            i.webkitRequestFullscreen();
+        } else if (i.mozRequestFullScreen) {
+            i.mozRequestFullScreen();
+        } else if (i.msRequestFullscreen) {
+            i.msRequestFullscreen();
+        } else {
+            this.showModal("Error", "The browser does not support full screen");
+        }
     }
 
     ngOnDestroy() {

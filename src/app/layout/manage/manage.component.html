@@ -1,4 +1,18 @@
 <!--<app-page-header [heading]="'User Manage'" [icon]="'fa-list-ol'"></app-page-header>-->
+<ng-template #modalTemplate let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{modalParam.Title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{modalParam.Message}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
 <div class="row">
     <div class="col col-xl-12 col-lg-12">
         <ngb-tabset>
@@ -12,11 +26,11 @@
                                     <span>Upload user.list here</span>
                                     <input type="file" (change)="fileChange($event)" class="form-control-file" hidden>
                                 </label>
-                                <span class="nowrap">{{uploadMsg}}</span>
+                                <label>{{uploadState.Hint}}</label>
                             </div>
                             <div class="col-xl-6 text-xs-center">
                                 <div class="form-group pull-right">
-                                    <input [disabled]="isUploading" type="text" class="form-control" placeholder="What you looking for?" [(ngModel)]="searchText"
+                                    <input [disabled]="uploadState.IsUploading" type="text" class="form-control" placeholder="What you looking for?" [(ngModel)]="searchText"
                                         [ngbTypeahead]="search" />
                                 </div>
                             </div>

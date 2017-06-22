@@ -1,8 +1,22 @@
 <!--<app-page-header [heading]="'Contest Standing'" [icon]="'fa-list-ol'"></app-page-header>-->
+<ng-template #modalTemplate let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{modalParam.Title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{modalParam.Message}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
 <div class="row">
     <div class="col col-xl-12 col-lg-12">
         <div *ngIf="contestStanding" class="card mb-3">
-            <div class="card-header">
+            <div class="card-header" (dblclick)="boardFullScreen()">
                 <div class="row">
                     <div class="col-xl-6">
                         {{ contestStanding?.StandingsHeader.CurrentDate }}
@@ -15,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-block table-responsive">
+            <div class="slideshow card-block table-responsive" #rankBoard>
                 <table class="table table-hover">
                     <thead>
                         <tr>
